@@ -20,7 +20,30 @@
  * Returns: void
  */
 void add_player(node_s** head, const char* name) {
-    // TODO: Implement this function to add a new player to the list
+    // Allocate memory for the new node
+    node_s* new_node = (node_s*)malloc(sizeof(node_s));
+    if (new_node == NULL) {
+        printf("Error: Memory allocation failed\n");
+        return;
+    }
+    
+    // Allocate memory for the player name and copy it
+    new_node->player.name = (char*)malloc(strlen(name) + 1);
+    if (new_node->player.name == NULL) {
+        printf("Error: Memory allocation failed for player name\n");
+        free(new_node);
+        return;
+    }
+    strcpy(new_node->player.name, name);
+    
+    // Initialize hop count to 0
+    new_node->player.hops = 0;
+    
+    // Insert at the beginning of the list
+    new_node->next = *head;
+    *head = new_node;
+    
+    printf("Player '%s' added successfully!\n", name);
 }
 
 /*
@@ -32,7 +55,23 @@ void add_player(node_s** head, const char* name) {
  * Returns: void
  */
 void display_players(const node_s* head) {
-    // TODO: Implement this function to display all players and their hop counts
+    if (head == NULL) {
+        printf("No players in the game.\n");
+        return;
+    }
+    
+    printf("\nCurrent Players:\n");
+    printf("===============\n");
+    
+    const node_s* current = head;
+    int position = 1;
+    
+    while (current != NULL) {
+        printf("%d. %s (hops: %d)\n", position, current->player.name, current->player.hops);
+        current = current->next;
+        position++;
+    }
+    printf("\n");
 }
 
 /*

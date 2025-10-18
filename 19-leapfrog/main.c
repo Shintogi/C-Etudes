@@ -38,7 +38,17 @@ int main() {
                 if (fgets(name, sizeof(name), stdin)) {
                     trim(name);
                     node_s* current = head;
-                    // TODO: Find the player and make them hop
+                    
+                    // Find the player with the given name
+                    while (current != NULL && strcmp(current->player.name, name) != 0) {
+                        current = current->next;
+                    }
+                    
+                    if (current != NULL) {
+                        hop(&head, current);
+                    } else {
+                        printf("Player '%s' not found.\n", name);
+                    }
                 }
                 break;
             }

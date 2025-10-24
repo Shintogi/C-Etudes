@@ -16,7 +16,7 @@ void inorder_dfs(BTNode *root) {
 
     printf("%d\n", root->data);
 
-    inorder_dfs(root->right);
+    dfs(root->right);
 }
 
 void insert(BTNode **root, int val) {
@@ -56,11 +56,29 @@ void release_tree(BTNode *node) {
  * Arguments:
  *   data: An array of integers.
  *   n: The number of integers in the array.
+ 
  * 
  * Returns:
  *   A pointer to the root node of the balanced BST.
  */
+ //sorting the data in the array
+ qsort(data, n, sizeof(int), compare)
+ int compare(const void *a, const void *b) {
+    return (*(int*)a) // return the pointer of the sort of a and b
+    - (*(int*)b);
+ }
+ //balanced 
+ build_balanced_bst(data, n) {
+    if (n <= 0) 
+        return NULL;
+    int mid = n /2;
+    BTNode *root = add_btnode(data[mid]);
+    root->left = build_balanced_bst(data, mid);
+    root->right = build_balanced_bst(data + mid + 1, n - mid - 1);
+    return root;
+ }
 BTNode *build_balanced_bst(int *data, int n) {
     // TODO: Implement this function to build a balanced BST.
-    return NULL;
+    qsort(data, n, sizeof(int), compare);
+    return build_balanced_bst(data, n); 
 }
